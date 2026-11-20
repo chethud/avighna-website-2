@@ -3,8 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { ArrowUpRight, ChevronRight, Menu, X } from 'lucide-react';
 import { BrandWordmark } from '@/components/brand-wordmark';
 
-const links = [
-  { label: 'Solutions', id: 'solutions' },
+const sectionLinks = [
   { label: 'Catalogue', id: 'catalogue' },
   { label: 'Applications', id: 'applications' },
   { label: 'Contact', id: 'contact' },
@@ -22,10 +21,19 @@ function goHomeSection(id: string, isHome: boolean) {
   window.location.assign(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/#${id}`);
 }
 
+function navClass(active: boolean) {
+  return [
+    'text-[16px] font-semibold tracking-[-0.01em] transition-colors hover:text-[#e2602c] lg:text-[17px]',
+    active ? 'text-[#e2602c] underline decoration-[#e2602c] decoration-2 underline-offset-[10px]' : 'text-[#3a4841]',
+  ].join(' ');
+}
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [location] = useLocation();
   const isHome = location === '/' || location === '';
+  const isSolutions = location === '/solutions';
+  const isAbout = location === '/about';
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#e0d1bd]/60 bg-[#fff9ee]/95 backdrop-blur-md">
@@ -46,18 +54,17 @@ export function SiteHeader() {
         )}
 
         <nav className="mx-auto hidden items-center gap-6 md:flex lg:gap-8 xl:gap-9" aria-label="Main navigation">
-          <Link
-            href="/about"
-            className="text-[16px] font-semibold tracking-[-0.01em] text-[#3a4841] transition-colors hover:text-[#e2602c] lg:text-[17px]"
-            data-testid="link-nav-about"
-          >
+          <Link href="/about" className={navClass(isAbout)} data-testid="link-nav-about">
             About Us
           </Link>
-          {links.map((link) => (
+          <Link href="/solutions" className={navClass(isSolutions)} data-testid="button-nav-solutions">
+            Solutions
+          </Link>
+          {sectionLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => goHomeSection(link.id, isHome)}
-              className="text-[16px] font-semibold tracking-[-0.01em] text-[#3a4841] transition-colors hover:text-[#e2602c] lg:text-[17px]"
+              className={navClass(false)}
               data-testid={`button-nav-${link.id}`}
             >
               {link.label}
@@ -98,7 +105,16 @@ export function SiteHeader() {
             About Us
             <ChevronRight size={16} className="text-[#a89072]" />
           </Link>
-          {links.map((link) => (
+          <Link
+            href="/solutions"
+            className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-sm font-semibold text-[#1e3d38] transition-colors hover:bg-[#f4eadb]"
+            data-testid="button-mobile-nav-solutions"
+            onClick={() => setOpen(false)}
+          >
+            Solutions
+            <ChevronRight size={16} className="text-[#a89072]" />
+          </Link>
+          {sectionLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => {

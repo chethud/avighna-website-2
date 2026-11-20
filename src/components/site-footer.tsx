@@ -1,4 +1,5 @@
 import { ArrowRight, Instagram, Linkedin, MapPin, Phone, Youtube } from 'lucide-react';
+import { Link } from 'wouter';
 import { BrandWordmark } from '@/components/brand-wordmark';
 
 function scrollToSection(id: string) {
@@ -13,11 +14,11 @@ function scrollToSection(id: string) {
 
 export function SiteFooter() {
   const exploreLinks = [
-    { label: 'Solutions', id: 'solutions' },
+    { label: 'Solutions', href: '/solutions' },
     { label: 'Catalogue', id: 'catalogue' },
     { label: 'Applications', id: 'applications' },
     { label: 'Contact', id: 'contact' },
-  ];
+  ] as const;
   const industriesServed = [
     'Pharmaceuticals & Nutraceuticals',
     'Dairy (Paneer, Cheese, Curd)',
@@ -101,16 +102,27 @@ export function SiteFooter() {
           </p>
 
           <div className="mt-4 flex flex-wrap gap-2">
-            {exploreLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="rounded-full border border-[#3a5f57] px-3 py-1.5 text-[12px] font-semibold text-[#f5efe4]"
-                data-testid={`button-footer-nav-mobile-${link.id}`}
-              >
-                {link.label}
-              </button>
-            ))}
+            {exploreLinks.map((link) =>
+              'href' in link ? (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="rounded-full border border-[#3a5f57] px-3 py-1.5 text-[12px] font-semibold text-[#f5efe4]"
+                  data-testid={`button-footer-nav-mobile-solutions`}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  className="rounded-full border border-[#3a5f57] px-3 py-1.5 text-[12px] font-semibold text-[#f5efe4]"
+                  data-testid={`button-footer-nav-mobile-${link.id}`}
+                >
+                  {link.label}
+                </button>
+              ),
+            )}
           </div>
 
           <div className="mt-5 border-t border-[#2d524b] pt-3">
@@ -174,18 +186,32 @@ export function SiteFooter() {
               <div className="mt-2 h-px w-8 bg-[#d7a94d]" />
               <ul className="mt-4 space-y-3">
                 {exploreLinks.map((link) => (
-                  <li key={link.id}>
-                    <button
-                      onClick={() => scrollToSection(link.id)}
-                      className="group inline-flex items-center gap-2 text-[15px] font-medium text-[#f5efe4] transition-all hover:translate-x-0.5 hover:text-[#ea632b]"
-                      data-testid={`button-footer-nav-${link.id}`}
-                    >
-                      {link.label}
-                      <ArrowRight
-                        size={13}
-                        className="text-[#d7a94d] transition-transform group-hover:translate-x-0.5"
-                      />
-                    </button>
+                  <li key={link.label}>
+                    {'href' in link ? (
+                      <Link
+                        href={link.href}
+                        className="group inline-flex items-center gap-2 text-[15px] font-medium text-[#f5efe4] transition-all hover:translate-x-0.5 hover:text-[#ea632b]"
+                        data-testid="button-footer-nav-solutions"
+                      >
+                        {link.label}
+                        <ArrowRight
+                          size={13}
+                          className="text-[#d7a94d] transition-transform group-hover:translate-x-0.5"
+                        />
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() => scrollToSection(link.id)}
+                        className="group inline-flex items-center gap-2 text-[15px] font-medium text-[#f5efe4] transition-all hover:translate-x-0.5 hover:text-[#ea632b]"
+                        data-testid={`button-footer-nav-${link.id}`}
+                      >
+                        {link.label}
+                        <ArrowRight
+                          size={13}
+                          className="text-[#d7a94d] transition-transform group-hover:translate-x-0.5"
+                        />
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>

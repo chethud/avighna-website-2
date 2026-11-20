@@ -187,7 +187,7 @@ function GroupHeader() {
     { label: 'Home', action: () => { window.location.assign(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/`); } },
     { label: 'About Us', action: () => scrollToId('about-avighna'), active: true },
     { label: 'Our Companies', action: () => scrollToId('companies') },
-    { label: 'Solutions', action: () => goHomeSection('solutions') },
+    { label: 'Solutions', action: () => { window.location.assign(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/solutions`); } },
     { label: 'Catalogue', action: () => goHomeSection('catalogue') },
     { label: 'Applications', action: () => goHomeSection('applications') },
     { label: 'Contact', action: () => goHomeSection('contact') },

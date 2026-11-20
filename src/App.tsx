@@ -10,7 +10,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import About from '@/pages/about';
 import CompanyPage from '@/pages/company';
-import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import SolutionsPage from '@/pages/solutions';
+import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
 
@@ -182,9 +183,9 @@ function Hero() {
             A product-led partner for food, dairy, beverage, pharmaceutical, and nutraceutical manufacturers.
           </p>
           <div className="reveal reveal-delay-3 mt-6 flex flex-wrap gap-2.5 lg:mt-9 lg:gap-3">
-            <button onClick={() => scrollToId('solutions')} className="group flex items-center gap-3 rounded-full bg-[#e2602c] px-5 py-3.5 text-sm font-bold text-[#fff9ee] transition-all hover:-translate-y-1 hover:bg-[#cb4c20] lg:px-6 lg:py-4" data-testid="button-hero-solutions">
+            <Link href="/solutions" className="group flex items-center gap-3 rounded-full bg-[#e2602c] px-5 py-3.5 text-sm font-bold text-[#fff9ee] transition-all hover:-translate-y-1 hover:bg-[#cb4c20] lg:px-6 lg:py-4" data-testid="button-hero-solutions">
               Explore solutions <ArrowDownRight size={17} className="transition-transform group-hover:translate-y-0.5 group-hover:rotate-[-15deg]" />
-            </button>
+            </Link>
             <button onClick={() => scrollToId('contact')} className="flex items-center gap-2 rounded-full border border-[#bfab92] px-5 py-3.5 text-sm font-bold text-[#1e3d38] transition-colors hover:border-[#e2602c] hover:text-[#e2602c] lg:px-6 lg:py-4" data-testid="button-hero-contact">
               Start a conversation <Phone size={15} />
             </button>
@@ -819,6 +820,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/about" component={About} />
+        <Route path="/solutions" component={SolutionsPage} />
         <Route path="/companies/:slug" component={CompanyPage} />
         <Route component={NotFound} />
       </Switch>
