@@ -99,43 +99,44 @@ const categoryThemes = {
 const ingredientGroups = [
   {
     eyebrow: 'Core ingredients',
-    title: 'Core and dairy essentials',
-    description: 'Foundational inputs for sweetness, texture, stability, and dependable dairy processing.',
+    title: 'Core essentials',
+    description: 'Starch derivatives and key processing inputs for sweetness, texture, stability, and dairy production.',
     slogan: 'Building the essentials together',
     image: '/generated/catalogue-core.jpg',
     imageAlt: 'Milk powder and dairy ingredient textures',
     theme: categoryThemes.core,
     items: [
-      { label: 'Citric Acid', icon: Beaker },
       { label: 'Maltodextrin', icon: Wheat },
       { label: 'Sorbitol 70% IP Solution', icon: Droplets },
       { label: 'Dextrose Anhydrous', icon: Candy },
       { label: 'Dextrose Monohydrate', icon: Candy },
       { label: 'Liquid Glucose', icon: GlassWater },
       { label: 'Maize Starch', icon: Wheat },
-      { label: 'Paneer Coagulants', icon: Milk },
+      { label: 'Citric Acid', icon: Beaker },
+      { label: 'EZENTIAL 4001 Coagulant', icon: Milk },
+      { label: 'Natural DVS Cultures', icon: Milk },
     ] satisfies IngredientItem[],
   },
   {
     eyebrow: 'Flavour systems',
-    title: 'Layered flavour delivery',
-    description: 'Flexible flavour formats for products that need aroma, taste retention, and processing fit.',
-    slogan: 'Flavours that inspire',
+    title: 'Flavour delivery',
+    description: 'Complete flavour and seasoning solutions for food and beverage manufacturers.',
+    slogan: 'Create Better Taste. Build Stronger Products.',
     image: '/generated/catalogue-flavour.jpg',
     imageAlt: 'Vanilla, botanicals, and natural flavour extracts',
     theme: categoryThemes.flavour,
     items: [
-      { label: 'Natural Antioxidant Blends', icon: Leaf },
       { label: 'Liquid Flavours', icon: Droplets },
       { label: 'Encapsulated Flavours', icon: Package },
       { label: 'Powder Flavours', icon: Sparkles },
+      { label: 'Oil & Water-Based Flavour Systems', icon: GlassWater },
       { label: 'Natural Extracts', icon: FlaskConical },
     ] satisfies IngredientItem[],
   },
   {
     eyebrow: 'Fruit solutions',
     title: 'Fruit-forward product formats',
-    description: 'Preparation and syrup systems built for colour, mouthfeel, and real-product character.',
+    description: 'Fruit preparations, powders, and syrups built for colour, mouthfeel, and real-product character.',
     slogan: 'Real Fruit. Real Possibilities.',
     image: '/generated/catalogue-fruit.jpg',
     imageAlt: 'Fresh mango, citrus, and fruit preparations',
@@ -143,22 +144,19 @@ const ingredientGroups = [
     items: [
       { label: 'Fruit Preparations', icon: Apple },
       { label: 'Fruit Powders', icon: Cherry },
-      { label: 'Fruit & Vegetable Syrups', icon: Citrus },
+      { label: 'Syrups (Fruit & Vegetable)', icon: Citrus },
     ] satisfies IngredientItem[],
   },
 ];
 
 const flavourApplications = [
-  'Instant soups/snacks',
-  'Tea and drink mixes',
-  'Protein drinks/premixes',
-  'Chips/masalas',
-  'Ice cream',
-  'Beverages',
-  'Bakeries',
-  'Distilleries',
-  'Cereals/masalas',
-  'Pharma/nutraceuticals',
+  'Instant soup & snack manufacturers',
+  'Tea & beverage mix producers',
+  'Protein drinks & premixes',
+  'Chips, masala & food brands',
+  'Ice cream & bakery manufacturers',
+  'Distilleries & beverages',
+  'Nutraceutical & pharma companies',
 ];
 
 function scrollToId(id: string) {
@@ -229,14 +227,72 @@ function Hero() {
   );
 }
 
+const solutionClients = [
+  {
+    id: 'avighna',
+    number: '01',
+    name: 'Avighna',
+    category: 'Speciality Ingredients',
+    description:
+      'Specialty ingredient solutions for food, dairy, beverages, pharmaceuticals and nutraceuticals.',
+    logo: '/brand-logo-mark.png',
+    href: '/about',
+  },
+  {
+    id: 'asian-apex',
+    number: '02',
+    name: 'Asian Apex',
+    category: 'Avighna Group Company',
+    description: 'Asian Apex & Co.',
+    logo: '/logos/asian-apex-mark.png',
+    href: '/companies/asian-apex',
+  },
+  {
+    id: 'ganesh-inc',
+    number: '03',
+    name: 'Ganesh Inc.',
+    category: 'Food & Pharma Raw Materials',
+    description:
+      'Food and pharma raw-material solutions supported by reliable supply, quality assurance and technical expertise.',
+    logo: '/logos/ganesh-inc-mark.png',
+    href: '/companies/ganesh-inc',
+  },
+  {
+    id: 'atharva',
+    number: '04',
+    name: 'Atharva',
+    category: 'Avighna Group Company',
+    description: 'Atharva Associates',
+    logo: '/logos/atharva-mark.png',
+    href: '/companies/atharva-associates',
+  },
+] as const;
+
+const industryFocusClient: Record<string, (typeof solutionClients)[number]['id']> = {
+  food: 'avighna',
+  dairy: 'avighna',
+  pharma: 'ganesh-inc',
+};
+
+const solutionFanLayouts = [
+  { x: -218, y: 10, rotate: -10 },
+  { x: -74, y: 10, rotate: -3.5 },
+  { x: 74, y: 10, rotate: 3.5 },
+  { x: 218, y: 10, rotate: 10 },
+] as const;
+
 function Solutions() {
   const [activeId, setActiveId] = useState('food');
-  const active = industries.find((industry) => industry.id === activeId) ?? industries[0];
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const focusId = industryFocusClient[activeId] ?? 'avighna';
+  const focusIndex = solutionClients.findIndex((client) => client.id === focusId);
+  const activeIndex = hoveredIndex ?? (focusIndex >= 0 ? focusIndex : 0);
+
   return (
     <section id="solutions" className="bg-[#1e3d38] py-7 text-[#fff9ee] lg:py-12">
       <div className="mx-auto page-container max-w-none">
-        <div className="grid gap-7 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
-          <div>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-10 xl:gap-12">
+          <div className="lg:max-w-[460px]">
             <div className="eyebrow text-[#e4c16e]">What we solve</div>
             <h2 className="mt-3 max-w-[450px] font-display text-[2.35rem] leading-[0.98] tracking-[-0.05em] sm:text-5xl lg:mt-5 lg:text-6xl" data-testid="heading-solutions">Ingredients in.<br /><span className="text-[#e4c16e]">Better products</span> out.</h2>
             <p className="mt-4 max-w-[390px] text-[14px] leading-6 text-[#c3d0c5] lg:mt-7 lg:text-[15px] lg:leading-7">The right ingredient changes everything downstream — from process performance to the product on the shelf.</p>
@@ -248,26 +304,95 @@ function Solutions() {
               ))}
             </div>
           </div>
-          <div className="relative grid gap-4 sm:grid-cols-[1fr_0.75fr] sm:gap-6">
-            <div className="relative min-h-[240px] overflow-hidden rounded-[1.5rem_5rem_1.5rem_1.5rem] border border-[#547269] sm:min-h-[415px] sm:rounded-[1.5rem_7rem_1.5rem_1.5rem]">
-              <img src={active.image} alt={active.label} className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500" data-testid={`img-solution-${active.id}`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#102b28] via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 sm:bottom-7 sm:left-7">
-                <span className="text-sm font-semibold">{active.label}</span>
-              </div>
+
+          <div className="relative flex min-w-0 items-center justify-center overflow-visible">
+            <svg
+              className="pointer-events-none absolute -right-2 top-0 hidden h-36 w-36 text-[#e4c16e]/18 xl:block"
+              viewBox="0 0 160 160"
+              fill="none"
+              aria-hidden
+            >
+              <path d="M118 22c-30 10-54 38-62 72-4 16 2 32 14 42 14 12 34 8 48-8 16-20 20-52 12-80-2-8-6-16-12-26z" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M46 118c18-8 28-22 30-38" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+
+            {/* Mobile: horizontal scroll stack */}
+            <div
+              className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden"
+              data-testid="solutions-client-scroll"
+            >
+              {solutionClients.map((client) => (
+                <Link
+                  key={client.id}
+                  href={client.href}
+                  className="solution-client-card snap-center"
+                  data-testid={`card-solution-client-${client.id}`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-display text-[2rem] leading-none tracking-[-0.04em] text-[#c6a15b]">{client.number}</span>
+                    <span className="pt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8a7358]">Group company</span>
+                  </div>
+                  <div className="mx-auto mt-5 flex h-24 w-24 items-center justify-center rounded-full border border-[#e4d8c6] bg-[#fff9ee] p-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6)]">
+                    <img src={client.logo} alt="" className="h-full w-full object-contain" />
+                  </div>
+                  <div className="mt-auto pt-6">
+                    <h3 className="font-display text-[1.55rem] leading-[1.05] tracking-[-0.03em] text-[#1e3d38]">{client.name}</h3>
+                    <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#c6a15b]">{client.category}</p>
+                    <p className="mt-3 text-[12.5px] leading-5 text-[#5f6b62]">{client.description}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
-            <div className={`flex flex-col gap-5 rounded-[1.5rem] bg-gradient-to-br ${active.accent} p-6 text-[#1e3d38] sm:min-h-[415px] sm:justify-between sm:gap-0 sm:p-7`}>
-              <div className="flex items-start justify-between gap-3">
-                <span className="eyebrow opacity-70">Application lens</span>
-                <span className="font-display text-4xl leading-none opacity-30 sm:text-5xl">0{industries.findIndex((item) => item.id === active.id) + 1}</span>
-              </div>
-              <div>
-                <h3 className="font-display text-[2rem] leading-[0.98] tracking-[-0.04em] sm:text-4xl" data-testid={`heading-solution-${active.id}`}>{active.title}</h3>
-                <p className="mt-4 text-sm leading-6 opacity-80 sm:mt-5">{active.description}</p>
-                <button onClick={() => scrollToId('catalogue')} className="mt-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] transition-colors hover:text-[#e2602c] sm:mt-7" data-testid="button-solution-catalogue">
-                  Browse ingredients <ArrowUpRight size={15} />
-                </button>
-              </div>
+
+            {/* Desktop / tablet: fanned playing-card deck */}
+            <div
+              className="solution-fan relative hidden h-[420px] w-full max-w-[700px] overflow-visible md:block lg:h-[450px] lg:max-w-[760px]"
+              onMouseLeave={() => setHoveredIndex(null)}
+              data-testid="solutions-client-fan"
+            >
+              {solutionClients.map((client, index) => {
+                const base = solutionFanLayouts[index] ?? solutionFanLayouts[0];
+                const isActive = index === activeIndex;
+                const distance = index - activeIndex;
+                const spread =
+                  hoveredIndex !== null && !isActive
+                    ? Math.sign(distance || 1) * (Math.abs(distance) === 1 ? 20 : 10)
+                    : 0;
+                const translateX = base.x + spread;
+                const translateY = isActive ? base.y - 22 : base.y;
+                const rotate = isActive ? 0 : base.rotate;
+                const scale = isActive ? 1.04 : 0.94;
+                const zIndex = isActive ? 40 : 20 - Math.abs(distance);
+
+                return (
+                  <Link
+                    key={client.id}
+                    href={client.href}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onFocus={() => setHoveredIndex(index)}
+                    className="solution-client-card solution-fan-card"
+                    style={{
+                      transform: `translate(-50%, -50%) translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`,
+                      zIndex,
+                    }}
+                    data-testid={`card-solution-client-${client.id}`}
+                    aria-current={isActive ? 'true' : undefined}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="font-display text-[2.15rem] leading-none tracking-[-0.04em] text-[#c6a15b]">{client.number}</span>
+                      <span className="pt-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8a7358]">Group company</span>
+                    </div>
+                    <div className="mx-auto mt-6 flex h-[6.5rem] w-[6.5rem] items-center justify-center rounded-full border border-[#e4d8c6] bg-[#fff9ee] p-3.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.65)]">
+                      <img src={client.logo} alt="" className="h-full w-full object-contain" />
+                    </div>
+                    <div className="mt-auto pt-7">
+                      <h3 className="font-display text-[1.65rem] leading-[1.02] tracking-[-0.03em] text-[#1e3d38]">{client.name}</h3>
+                      <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#c6a15b]">{client.category}</p>
+                      <p className="mt-3 line-clamp-3 text-[12.5px] leading-5 text-[#5f6b62]">{client.description}</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -519,7 +644,7 @@ function Applications() {
             <img src="/generated/flavours.jpg" alt="Fruits, spices, extracts, and flavour ingredients" className="absolute inset-0 h-full w-full object-cover object-center" data-testid="img-flavours-ingredients" />
             <div className="absolute bottom-5 left-5 right-5 rounded-xl bg-[#1e3d38]/95 p-4 text-[#fff9ee] lg:p-5">
               <p className="eyebrow text-[#e4c16e]">Our flavour range</p>
-              <p className="mt-2 font-display text-xl leading-none lg:text-2xl">Liquid. Encapsulated. Powder.</p>
+              <p className="mt-2 font-display text-xl leading-none lg:text-2xl">Liquid. Encapsulated. Powder. Oil & water-based.</p>
             </div>
           </div>
           <div className="grid gap-2 sm:grid-cols-2 lg:gap-2.5">
