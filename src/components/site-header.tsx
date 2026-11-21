@@ -116,12 +116,36 @@ export function SiteHeader() {
         </div>
 
         {open && (
-          <nav
-            id="mobile-navigation"
-            className="absolute inset-x-0 top-full max-h-[min(70vh,28rem)] overflow-y-auto border-b border-[#e0d1bd]/60 bg-[#fff9ee] px-4 pb-4 pt-2 shadow-[0_18px_40px_rgba(49,62,54,0.12)] md:hidden"
-            aria-label="Mobile navigation"
-          >
-            <div className="rounded-2xl border border-[#e0d1bd] bg-[#fff9ee] p-2">
+          <div className="absolute inset-x-0 top-full px-3 pb-3 pt-2 md:hidden">
+            <nav
+              id="mobile-navigation"
+              className="ml-auto w-[min(17.5rem,calc(100%-0.25rem))] max-h-[min(70vh,28rem)] overflow-y-auto rounded-2xl border border-[#e0d1bd] bg-[#fff9ee] p-2 shadow-[0_18px_40px_rgba(49,62,54,0.18)]"
+              aria-label="Mobile navigation"
+            >
+              {isHome ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    scrollToId('top');
+                    setOpen(false);
+                  }}
+                  className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-sm font-semibold text-[#1e3d38] transition-colors hover:bg-[#f4eadb]"
+                  data-testid="button-mobile-nav-home"
+                >
+                  Home
+                  <ChevronRight size={16} className="text-[#a89072]" />
+                </button>
+              ) : (
+                <Link
+                  href="/"
+                  className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-sm font-semibold text-[#1e3d38] transition-colors hover:bg-[#f4eadb]"
+                  data-testid="link-mobile-nav-home"
+                  onClick={() => setOpen(false)}
+                >
+                  Home
+                  <ChevronRight size={16} className="text-[#a89072]" />
+                </Link>
+              )}
               <Link
                 href="/about"
                 className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-sm font-semibold text-[#1e3d38] transition-colors hover:bg-[#f4eadb]"
@@ -164,8 +188,8 @@ export function SiteHeader() {
               >
                 Start a conversation <ArrowUpRight size={15} />
               </button>
-            </div>
-          </nav>
+            </nav>
+          </div>
         )}
       </header>
 
