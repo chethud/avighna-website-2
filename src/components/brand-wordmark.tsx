@@ -1,21 +1,21 @@
 export function BrandWordmark({ light = false }: { light?: boolean }) {
   return (
-    <div className="flex items-center gap-3.5" data-testid="brand-wordmark">
+    <div className="flex min-w-0 items-center gap-2.5 sm:gap-3.5" data-testid="brand-wordmark">
       <img
         src="/brand-logo.png"
         alt="Avighna logo"
-        className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16"
+        className="h-10 w-10 shrink-0 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16"
       />
-      <div className="leading-none">
+      <div className="min-w-0 leading-none">
         <div
-          className={`font-display text-[1.55rem] tracking-[-0.04em] sm:text-[1.7rem] ${
+          className={`font-display text-[1.25rem] tracking-[-0.04em] sm:text-[1.55rem] md:text-[1.7rem] ${
             light ? 'text-[#fff9ee]' : 'text-[#1d2522]'
           }`}
         >
           Avighna
         </div>
         <div
-          className={`mt-1.5 text-[9px] font-semibold uppercase tracking-[0.13em] sm:text-[10px] ${
+          className={`mt-1 truncate text-[8px] font-semibold uppercase tracking-[0.12em] sm:mt-1.5 sm:text-[9px] md:text-[10px] ${
             light ? 'text-[#d7ddd2]' : 'text-[#68706a]'
           }`}
         >

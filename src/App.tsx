@@ -227,51 +227,55 @@ function Hero() {
   );
 }
 
-const solutionClients = [
-  {
-    id: 'avighna',
-    number: '01',
-    name: 'Avighna',
-    category: 'Speciality Ingredients',
-    description:
-      'Specialty ingredient solutions for food, dairy, beverages, pharmaceuticals and nutraceuticals.',
-    logo: '/brand-logo-mark.png',
-    href: '/about',
-  },
-  {
-    id: 'asian-apex',
-    number: '02',
-    name: 'Asian Apex',
-    category: 'Avighna Group Company',
-    description: 'Asian Apex & Co.',
-    logo: '/logos/asian-apex-mark.png',
-    href: '/companies/asian-apex',
-  },
-  {
-    id: 'ganesh-inc',
-    number: '03',
-    name: 'Ganesh Inc.',
-    category: 'Food & Pharma Raw Materials',
-    description:
-      'Food and pharma raw-material solutions supported by reliable supply, quality assurance and technical expertise.',
-    logo: '/logos/ganesh-inc-mark.png',
-    href: '/companies/ganesh-inc',
-  },
-  {
-    id: 'atharva',
-    number: '04',
-    name: 'Atharva',
-    category: 'Avighna Group Company',
-    description: 'Atharva Associates',
-    logo: '/logos/atharva-mark.png',
-    href: '/companies/atharva-associates',
-  },
-] as const;
+type SolutionClient = {
+  id: string;
+  number: string;
+  name: string;
+  category: string;
+  description: string;
+  logo?: string;
+  empty?: boolean;
+};
 
-const industryFocusClient: Record<string, (typeof solutionClients)[number]['id']> = {
-  food: 'avighna',
-  dairy: 'avighna',
-  pharma: 'ganesh-inc',
+const solutionClients: SolutionClient[] = [
+  {
+    id: 'adukale',
+    number: '01',
+    name: 'Adukale',
+    category: 'Client',
+    description: '',
+    logo: '/logos/clients/adukale.png',
+  },
+  {
+    id: 'polar-bear',
+    number: '02',
+    name: 'Polar Bear',
+    category: 'Client',
+    description: '',
+    logo: '/logos/clients/polar-bear.png',
+  },
+  {
+    id: 'client-03',
+    number: '03',
+    name: '',
+    category: 'Client',
+    description: '',
+    empty: true,
+  },
+  {
+    id: 'client-04',
+    number: '04',
+    name: '',
+    category: 'Client',
+    description: '',
+    empty: true,
+  },
+];
+
+const industryFocusClient: Record<string, string> = {
+  food: 'adukale',
+  dairy: 'polar-bear',
+  pharma: 'adukale',
 };
 
 const solutionFanLayouts = [
@@ -322,25 +326,32 @@ function Solutions() {
               data-testid="solutions-client-scroll"
             >
               {solutionClients.map((client) => (
-                <Link
+                <div
                   key={client.id}
-                  href={client.href}
-                  className="solution-client-card snap-center"
+                  className={`solution-client-card snap-center ${client.empty ? 'solution-client-card--empty' : ''}`}
                   data-testid={`card-solution-client-${client.id}`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="font-display text-[2rem] leading-none tracking-[-0.04em] text-[#c6a15b]">{client.number}</span>
-                    <span className="pt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8a7358]">Group company</span>
+                    <span className="pt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8a7358]">Client</span>
                   </div>
-                  <div className="mx-auto mt-5 flex h-24 w-24 items-center justify-center rounded-full border border-[#e4d8c6] bg-[#fff9ee] p-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6)]">
-                    <img src={client.logo} alt="" className="h-full w-full object-contain" />
+                  <div className="mx-auto mt-5 flex h-24 w-[7.5rem] items-center justify-center rounded-2xl border border-[#e4d8c6] bg-[#fff9ee] p-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6)]">
+                    {client.logo ? (
+                      <img src={client.logo} alt={client.name} className="h-full w-full object-contain" />
+                    ) : null}
                   </div>
                   <div className="mt-auto pt-6">
-                    <h3 className="font-display text-[1.55rem] leading-[1.05] tracking-[-0.03em] text-[#1e3d38]">{client.name}</h3>
-                    <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#c6a15b]">{client.category}</p>
-                    <p className="mt-3 text-[12.5px] leading-5 text-[#5f6b62]">{client.description}</p>
+                    <h3 className="font-display text-[1.55rem] leading-[1.05] tracking-[-0.03em] text-[#1e3d38]">
+                      {client.empty ? '\u00A0' : client.name}
+                    </h3>
+                    {!client.empty && client.category ? (
+                      <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#c6a15b]">{client.category}</p>
+                    ) : null}
+                    {client.description ? (
+                      <p className="mt-3 text-[12.5px] leading-5 text-[#5f6b62]">{client.description}</p>
+                    ) : null}
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
 
@@ -365,12 +376,13 @@ function Solutions() {
                 const zIndex = isActive ? 40 : 20 - Math.abs(distance);
 
                 return (
-                  <Link
+                  <div
                     key={client.id}
-                    href={client.href}
+                    role="button"
+                    tabIndex={0}
                     onMouseEnter={() => setHoveredIndex(index)}
                     onFocus={() => setHoveredIndex(index)}
-                    className="solution-client-card solution-fan-card"
+                    className={`solution-client-card solution-fan-card ${client.empty ? 'solution-client-card--empty' : ''}`}
                     style={{
                       transform: `translate(-50%, -50%) translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`,
                       zIndex,
@@ -380,17 +392,25 @@ function Solutions() {
                   >
                     <div className="flex items-start justify-between gap-3">
                       <span className="font-display text-[2.15rem] leading-none tracking-[-0.04em] text-[#c6a15b]">{client.number}</span>
-                      <span className="pt-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8a7358]">Group company</span>
+                      <span className="pt-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-[#8a7358]">Client</span>
                     </div>
-                    <div className="mx-auto mt-6 flex h-[6.5rem] w-[6.5rem] items-center justify-center rounded-full border border-[#e4d8c6] bg-[#fff9ee] p-3.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.65)]">
-                      <img src={client.logo} alt="" className="h-full w-full object-contain" />
+                    <div className="mx-auto mt-6 flex h-[5.75rem] w-[8.25rem] items-center justify-center rounded-2xl border border-[#e4d8c6] bg-[#fff9ee] p-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.65)]">
+                      {client.logo ? (
+                        <img src={client.logo} alt={client.name} className="h-full w-full object-contain" />
+                      ) : null}
                     </div>
                     <div className="mt-auto pt-7">
-                      <h3 className="font-display text-[1.65rem] leading-[1.02] tracking-[-0.03em] text-[#1e3d38]">{client.name}</h3>
-                      <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#c6a15b]">{client.category}</p>
-                      <p className="mt-3 line-clamp-3 text-[12.5px] leading-5 text-[#5f6b62]">{client.description}</p>
+                      <h3 className="font-display text-[1.65rem] leading-[1.02] tracking-[-0.03em] text-[#1e3d38]">
+                        {client.empty ? '\u00A0' : client.name}
+                      </h3>
+                      {!client.empty && client.category ? (
+                        <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#c6a15b]">{client.category}</p>
+                      ) : null}
+                      {client.description ? (
+                        <p className="mt-3 line-clamp-3 text-[12.5px] leading-5 text-[#5f6b62]">{client.description}</p>
+                      ) : null}
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>

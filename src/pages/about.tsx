@@ -252,7 +252,7 @@ function GroupHeader() {
             />
             <nav
               id="about-mobile-menu"
-              className="absolute inset-x-3 top-[5rem] max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-2xl border border-[#e5d8c4] bg-[#F6F0E4] p-2 shadow-[0_24px_60px_rgba(23,32,29,0.22)] sm:top-[6rem] sm:max-h-[calc(100dvh-6.5rem)]"
+              className="absolute right-3 top-[5rem] w-[min(17.5rem,calc(100%-1.5rem))] max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-2xl border border-[#e5d8c4] bg-[#F6F0E4] p-2 shadow-[0_24px_60px_rgba(23,32,29,0.22)] sm:right-4 sm:top-[6rem] sm:max-h-[calc(100dvh-6.5rem)]"
               aria-label="Mobile about navigation"
             >
               {nav.map((item) => (
