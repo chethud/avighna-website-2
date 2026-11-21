@@ -272,12 +272,6 @@ const solutionClients: SolutionClient[] = [
   },
 ];
 
-const industryFocusClient: Record<string, string> = {
-  food: 'adukale',
-  dairy: 'polar-bear',
-  pharma: 'adukale',
-};
-
 const solutionFanLayouts = [
   { x: -218, y: 10, rotate: -10 },
   { x: -74, y: 10, rotate: -3.5 },
@@ -286,11 +280,8 @@ const solutionFanLayouts = [
 ] as const;
 
 function Solutions() {
-  const [activeId, setActiveId] = useState('food');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const focusId = industryFocusClient[activeId] ?? 'avighna';
-  const focusIndex = solutionClients.findIndex((client) => client.id === focusId);
-  const activeIndex = hoveredIndex ?? (focusIndex >= 0 ? focusIndex : 0);
+  const activeIndex = hoveredIndex ?? 0;
 
   return (
     <section id="solutions" className="bg-[#1e3d38] py-7 text-[#fff9ee] lg:py-12">
@@ -302,9 +293,13 @@ function Solutions() {
             <p className="mt-4 max-w-[390px] text-[14px] leading-6 text-[#c3d0c5] lg:mt-7 lg:text-[15px] lg:leading-7">The right ingredient changes everything downstream — from process performance to the product on the shelf.</p>
             <div className="mt-6 flex flex-wrap gap-2 lg:mt-10">
               {industries.map((industry) => (
-                <button key={industry.id} onClick={() => setActiveId(industry.id)} className={`rounded-full border px-3.5 py-2.5 text-xs font-bold transition-all lg:px-4 lg:py-3 ${activeId === industry.id ? 'border-[#e4c16e] bg-[#e4c16e] text-[#1e3d38]' : 'border-[#55726b] text-[#cfdbd0] hover:border-[#e4c16e] hover:text-[#e4c16e]'}`} data-testid={`button-solution-${industry.id}`}>
+                <span
+                  key={industry.id}
+                  className="rounded-full border border-[#55726b] px-3.5 py-2.5 text-xs font-bold text-[#cfdbd0] lg:px-4 lg:py-3"
+                  data-testid={`label-solution-${industry.id}`}
+                >
                   {industry.label}
-                </button>
+                </span>
               ))}
             </div>
           </div>
